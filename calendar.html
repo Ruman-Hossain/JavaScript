@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>Calendar Generate Using Javascript</title>
+</head>
+<body>
+<div style="display:block;width:450px;height:450px;margin:0px auto;margin-top:5%;border-radius:15px;padding:20px;border:1px solid gray;">
+	<h3 style="text-align:center;padding:2px;color:blue;">Give Input and Click To Generate Calendar</h3>
+	<table style="margin:0px auto;margin-top:40px;width:250px;">
+		<tr>
+			<td>Month : </td>
+			<td>
+				<input type="number" name="month" value="" min="1" max="12" style="width:100%;" id="month" placeholder="Enter Month Number"/>
+			</td>
+		</tr>
+		<tr>
+			<td>Year : </td>
+			<td>
+				<input type="number" name="year" value="" style="width:100%;" id="year" placeholder="Enter Year" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" onclick="getCalendar(document.getElementById('month').value,document.getElementById('year').value,)" value="Generate Calendar"/>
+			</td>
+		</tr>
+	</table>
+	<div id="calendar" style="width:240px;height:240px;margin:0px auto;margin-top:20px;font-size:17px;">Calendar Will be Displayed Here</div>
+</div>
+	<script type="text/javascript"> 
+		function getday(year){
+			var day = (((year - 1) * 365) + ((year - 1) / 4) - ((year - 1) / 100) + ((year) / 400) + 1) % 7;
+			return day-1;
+		}
+		function getCalendar(month,year){
+			document.getElementById('calendar').innerHTML="";
+			var x=document.getElementById('calendar');
+			x.style.border="1px solid gray";
+			var mnthName=["January","February","March","April","May","June","July","August","September","October","November","December"];
+			var mnthDay=[31,28,31,30,31,30,31,31,30,31,31,30,31];
+			var mnth,day,weekday=0;
+			
+			x.innerHTML=x.innerHTML.concat("<h4 style='text-align:center;'>",mnthName[month-1],", ",year,"</h4><hr/>");
+			if((year%4==0&&year%100!=0)||year%400==0)
+				mnthDay[1]=29;
+			var startingDay=getday(year);
+			for(mnth=1;mnth<=12;mnth++){
+				var daysInmnth=mnthDay[mnth-1];
+				if(mnth==month){
+					x.innerHTML=x.innerHTML.concat("  Sun|&nbspMon|&nbspTue|&nbspWed|&nbspThu|&nbspFri|&nbspSat<hr/>");
+				}
+					for(weekday=0;weekday<startingDay;weekday++){
+						if(mnth==month)
+							x.innerHTML=x.innerHTML.concat("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+					}
+					for(day=1;day<=daysInmnth;day++){
+						if(mnth==month){
+							if(day<10)
+								x.innerHTML=x.innerHTML.concat("&nbsp;&nbsp;&nbsp;",day,"&nbsp;&nbsp;&nbsp;");
+							else
+								x.innerHTML=x.innerHTML.concat("&nbsp;",day,"&nbsp;&nbsp;&nbsp;");
+						}
+						if(++weekday>6){
+							if(mnth==month)
+								x.innerHTML=x.innerHTML.concat("<br/>");
+							weekday=0;
+						}
+						startingDay=weekday;
+					}
+			}
+
+		}
+	</script>
+</body>
+</html>
